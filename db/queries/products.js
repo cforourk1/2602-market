@@ -34,6 +34,13 @@ export async function getProductsByOrderId(id) {
   return products;
 }
 
+/*
+
+
+
+
+*/
+
 export async function getProductById(id) {
   const sql = `
   SELECT *
