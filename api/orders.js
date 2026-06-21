@@ -1,4 +1,5 @@
 import express from "express";
+import { getIo } from "#socket";
 import { createOrder, getOrderById, getOrders } from "#db/queries/orders";
 import { createOrderProduct } from "#db/queries/orders_products";
 import { getProductsByOrderId, getProductById } from "#db/queries/products";
@@ -19,6 +20,7 @@ router.get("/", async (req, res) => {
 router.post("/", requireBody(["date"]), async (req, res) => {
   const { date, note } = req.body;
   const order = await createOrder(date, note, req.user.id);
+getIo().emit("new:order", order);
   res.status(201).send(order);
 });
 
