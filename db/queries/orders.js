@@ -1,5 +1,6 @@
 import db from "#db/client";
 
+// create order function
 export async function createOrder(date, note, userId) {
   const sql = `
   INSERT INTO orders (date, note, user_id)
@@ -10,6 +11,7 @@ export async function createOrder(date, note, userId) {
   return order;
 }
 
+//get orders - requires USER id
 export async function getOrders(userId) {
   const sql = `
   SELECT *
@@ -20,6 +22,7 @@ export async function getOrders(userId) {
   return orders;
 }
 
+// get orders by id
 export async function getOrderById(id) {
   const sql = `
   SELECT *
@@ -30,6 +33,8 @@ export async function getOrderById(id) {
   return order;
 }
 
+//get the orders by product id. join the tables together to match
+//product id to order user id by foreign key match
 export async function getOrdersByProductId(productId, userId) {
   const sql = `
   SELECT orders.*

@@ -6,11 +6,14 @@ import requireUser from "#middleware/requireUser";
 const router = express.Router();
 export default router;
 
+//get products
 router.get("/", async (req, res) => {
   const products = await getProducts();
   res.send(products);
 });
 
+
+//get product by its id number
 router.param("id", async (req, res, next, id) => {
   const product = await getProductById(id);
   if (!product) return res.status(404).send("product not found.");
@@ -18,6 +21,7 @@ router.param("id", async (req, res, next, id) => {
   next();
 });
 
+//get orders associated with that product id 
 router.get("/:id", (req, res) => {
   res.send(req.product);
 });

@@ -5,6 +5,7 @@ import { createToken } from "#utils/jwt";
 const router = express.Router();
 export default router;
 
+// register a new user
 router.post(
   "/register",
   requireBody(["username", "password"]),
@@ -16,6 +17,7 @@ router.post(
   },
 );
 
+// post body requiremments and error handling for username and pass
 router.post("/login", requireBody(["username", "password"]), async (req, res) => {
   const { username, password } = req.body;
   const user = await getUserByUsernameAndPassword(username, password);

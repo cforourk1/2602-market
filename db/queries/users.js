@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import db from "#db/client";
 
+// create user username and password required - using bcrypt to hash
 export async function createUser(username, password) {
   const sql = `
   INSERT INTO users
@@ -16,6 +17,8 @@ export async function createUser(username, password) {
   return user;
 }
 
+/* validation for user authentication - api calls to validation username and password against input - bcrypt validates the hash
+*/
 export async function getUserByUsernameAndPassword(username, password) {
   const sql = `
   SELECT *
@@ -33,6 +36,7 @@ export async function getUserByUsernameAndPassword(username, password) {
   return user;
 }
 
+// get user by ID 
 export async function getUserById(id) {
   const sql = `
   SELECT *

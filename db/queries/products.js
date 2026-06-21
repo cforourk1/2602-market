@@ -1,5 +1,6 @@
 import db from "#db/client";
 
+// create product function
 export async function createProduct(title, description, price) {
   const sql = `
   INSERT INTO products
@@ -12,6 +13,7 @@ export async function createProduct(title, description, price) {
   return product;
 }
 
+//return all products
 export async function getProducts() {
   const sql = `
   SELECT *
@@ -21,6 +23,7 @@ export async function getProducts() {
   return products;
 }
 
+// get product list by order id through table join
 export async function getProductsByOrderId(id) {
   const sql = `
   SELECT products.*
@@ -34,13 +37,7 @@ export async function getProductsByOrderId(id) {
   return products;
 }
 
-/*
-
-
-
-
-*/
-
+// get product by id number 
 export async function getProductById(id) {
   const sql = `
   SELECT *

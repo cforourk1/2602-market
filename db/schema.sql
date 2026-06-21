@@ -4,7 +4,7 @@ DROP TABLE IF EXISTS products CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE users (
-  id serial PRIMARY KEY,
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   username text UNIQUE NOT NULL,
   password text NOT NULL
 );
@@ -20,7 +20,7 @@ CREATE TABLE orders (
   id serial PRIMARY KEY,
   date date NOT NULL,
   note text,
-  user_id integer NOT NULL REFERENCES users(id) ON DELETE CASCADE
+  user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE orders_products (

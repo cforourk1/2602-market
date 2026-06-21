@@ -15,12 +15,14 @@ router.get("/", async (req, res) => {
   res.send(orders);
 });
 
+// post an order - requires date, note, user id
 router.post("/", requireBody(["date"]), async (req, res) => {
   const { date, note } = req.body;
   const order = await createOrder(date, note, req.user.id);
   res.status(201).send(order);
 });
 
+// get an order Id - it it doesnt match send an error  - this holds the id
 router.param("id", async (req, res, next, id) => {
   const order = await getOrderById(id);
   if (!order) return res.status(404).send("Order not found.");
@@ -33,11 +35,15 @@ router.get("/:id", (req, res) => {
   res.send(req.order);
 });
 
+//get order products by order user id has to match
+
 router.get("/:id/products", async (req, res) => {
   if (req.order.user_id !== req.user.id) return res.status(403).send("Forbidden.");
   const products = await getProductsByOrderId(req.order.id);
   res.send(products);
 });
+
+// error handling for product not found
 
 router.post("/:id/products", requireBody(["productId", "quantity"]), async (req, res) => {
   if (req.order.user_id !== req.user.id) return res.status(403).send("Forbidden.");

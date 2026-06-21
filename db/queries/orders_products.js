@@ -1,5 +1,6 @@
 import db from "#db/client";
 
+// this function adds products and qty to the orders 
 export async function createOrderProduct(orderId, productId, quantity) {
   const sql = `
   INSERT INTO orders_products (order_id, product_id, quantity)
