@@ -20,7 +20,8 @@ router.get("/", async (req, res) => {
 router.post("/", requireBody(["date"]), async (req, res) => {
   const { date, note } = req.body;
   const order = await createOrder(date, note, req.user.id);
-getIo().emit("new:order", order);
+const io = getIo();
+if (io) io.emit("new:order", order);
   res.status(201).send(order);
 });
 
