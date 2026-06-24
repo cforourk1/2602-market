@@ -29,19 +29,18 @@ if (io) io.emit("new:order", order);
 router.param("id", async (req, res, next, id) => {
   const order = await getOrderById(id);
   if (!order) return res.status(404).send("Order not found.");
+  if (order.user_id !== req.user.id) return res.status(403).send("Forbidden.");
   req.order = order;
   next();
 });
 
 router.get("/:id", (req, res) => {
-  if (req.order.user_id !== req.user.id) return res.status(403).send("Forbidden.");
   res.send(req.order);
 });
 
 //get order products by order user id has to match
 
 router.get("/:id/products", async (req, res) => {
-  if (req.order.user_id !== req.user.id) return res.status(403).send("Forbidden.");
   const products = await getProductsByOrderId(req.order.id);
   res.send(products);
 });
@@ -49,7 +48,6 @@ router.get("/:id/products", async (req, res) => {
 // error handling for product not found
 
 router.post("/:id/products", requireBody(["productId", "quantity"]), async (req, res) => {
-  if (req.order.user_id !== req.user.id) return res.status(403).send("Forbidden.");
   const { productId, quantity } = req.body;
   const product = await getProductById(productId);
   if (!product) return res.status(400).send("Product not found.");
