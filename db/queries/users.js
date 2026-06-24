@@ -8,7 +8,7 @@ export async function createUser(username, password) {
     (username, password)
   VALUES
     ($1, $2)
-  RETURNING *
+  RETURNING id, username
   `;
   const hashedPassword = await bcrypt.hash(password, 10);
   const {
@@ -36,7 +36,7 @@ export async function getUserByUsernameAndPassword(username, password) {
   return user;
 }
 
-// get user by ID 
+// get user by ID
 export async function getUserById(id) {
   const sql = `
   SELECT *
